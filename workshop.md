@@ -1,15 +1,59 @@
 # STACKS WORKSHOP 
 *29th of April 2019, Lund*
 
+
+
+
 ## General uppmax code
++ log in
+```
+ssh janneswa@rackham.uppmax.uu.se
+```
+
 + progress of 1 job
 ```
 scontrol show jobid -dd 'insert jobnumber'
 ```
 
 ## Cleaning the data
++ demultiplexing
 
+```
+#!/bin/bash -l
+#SBATCH -A snic2017-7-126
+#SBATCH -p node
+#SBATCH -n 1
+#SBATCH -t 40:00:00
+#SBATCH -J cleaning_of_reads_1
 
+module load bioinfo-tools
+module load Stacks
+
+process_radtags -P -p ../raw/lane_1_b -b ../info/isch_barcodes_lane_1 -o ../results/clean_reads -e sbfI -i gzfastq -E phred33 -r --inline_null -c -q
+```
+
++ decloning
+
+```
+#!/bin/bash -l
+
+#SBATCH -A snic2017-7-126
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 20:00:00
+#SBATCH -J declone_reads
+
+module load bioinfo-tools
+module load Stacks
+
+#First of all, we create a variable for saving the sample identifiers
+samples="sample1 sample2 sample 3"
+
+#Now we iterate over them
+#Then we iterate over samples to retrieve all decloned reads in the respective folder
+echo ${samples} | tr " " "\n" | while read sample; do clone_filter -1 ../results/clean_reads/${sample}.1.fq.gz -2 ../results/clean_reads/${sample}.2.fq.gz -o ../results/decloned_reads -i gzfastq; echo \
+${sample} processed; done
+```
 
 ## de novo integrate with reference
 
