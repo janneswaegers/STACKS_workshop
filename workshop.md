@@ -10,6 +10,16 @@
 ssh janneswa@rackham.uppmax.uu.se
 ```
 
++ using the nano texteditor
+```
+nano textfile
+```
+
++ submit a job
+```
+sbatch script.sh
+```
+
 + progress of 1 job
 ```
 scontrol show jobid -dd 'insert jobnumber'
@@ -17,6 +27,8 @@ scontrol show jobid -dd 'insert jobnumber'
 
 ## Cleaning the data
 + demultiplexing
+
+++ enter the barcodes into a file called isch_barcodes_lane_1
 
 ```
 #!/bin/bash -l
