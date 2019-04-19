@@ -28,7 +28,7 @@ scontrol show jobid -dd 'insert jobnumber'
 ## Cleaning the data
 + demultiplexing
 
-++ enter the barcodes into a file called isch_barcodes_lane_1
+enter the barcodes into a textfile (here called isch_barcodes_lane_1)
 
 ```
 #!/bin/bash -l
