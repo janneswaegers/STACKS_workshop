@@ -1,5 +1,5 @@
 # STACKS WORKSHOP 
-29th of April 2019, Lund
+*29th of April 2019, Lund*
 
 ## General uppmax code
 + progress of 1 job
