@@ -1,6 +1,7 @@
-# STACKS WORKSHOP 29th of April 2019, Lund
+# STACKS WORKSHOP 
+29th of April 2019, Lund
 
-## general uppmax
+## General uppmax code
 + progress of 1 job
 ```
 scontrol show jobid -dd 'insert jobnumber'
