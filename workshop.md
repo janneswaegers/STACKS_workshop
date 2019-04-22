@@ -165,9 +165,11 @@ ref_map.pl -T 16 --samples ../results/sorted_bam_10K_trimmed/ -o ../results/refe
 
 + parameter optimalisation
 
+Understanding the de novo parameters: http://catchenlab.life.illinois.edu/stacks/param_tut.php
+
 + -r 0.8 =loci found in 80% of the population or, r80 loci
 + popmap for circa 20 samples
-+ Paris 2017: We found that the highest polymorphism of r80 loci resulted from n = M, n = M or n = M + 1
++ Paris et al. 2017: We found that the highest polymorphism of r80 loci resulted from n = M, n = M or n = M + 1
 + Do for M=1 to M=6
 
 ```
@@ -249,9 +251,10 @@ stacks-integrate-alignments -P ./stacks_outputM2n3 -B ./bwa/catalog.bam -O ./int
 + ready for populations
 
 ## Populations
-+ min_samples=0.75    # minimum per-population percentage of samples and
-+	min_maf=0.05     # minimum minor allele frequency
-+	max_obs_het=0.70   # maximum accepted heterozygosity
++ -r =0.75    # locus has to be detected in 75% of individuals in population
++ -p=   minimum number of populations a locus must be present in to process a locus
++	--min_maf=0.05     # minimum minor allele frequency
++	--max_obs_het=0.70   # maximum accepted heterozygosity
 ```
-populations -P ./../stacks_outputM2n3 --popmap ./../all_popmap -O pops.maf05.r75.het70  -r 0.75 --min_maf 0.05  --max_obs_het 0.7 --genepop --plink --structure --vcf -f p_value --fstats -k
+populations -P ./../stacks_outputM2n3 --popmap ./../all_popmap -O pops.maf05.r75.het70  -r 0.75 --min_maf 0.05  --max_obs_het 0.7 --genepop --plink --structure --vcf
 ```
