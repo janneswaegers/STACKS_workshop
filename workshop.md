@@ -1,6 +1,5 @@
 # STACKS WORKSHOP 
-*29th of April 2019*
-*Lund*
+*29th of April 2019, Lund*
 
 
 
@@ -188,6 +187,10 @@ denovo_map.pl -M 2 -n 3 -T 16 -o ./stacks_outputM2n3 --popmap ./all_popmap --sam
 ```
 
 ## De novo first, then integrate with reference
+
+as done in https://besjournals.onlinelibrary.wiley.com/doi/10.1111/2041-210X.12775
+
+when (part of) samples do not reach >80% mapping rate, worthwhile comparing this method with the reference pipeline (pers. comm. Catchen, 2018)
 
 ### mapping
 + Map catalog to reference genome
