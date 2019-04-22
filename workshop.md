@@ -9,22 +9,46 @@
 ```
 ssh janneswa@rackham.uppmax.uu.se
 ```
-
 + using the nano texteditor
 ```
 nano textfile
 ```
-
 + submit a job
 ```
 sbatch script.sh
 ```
-
 + progress of 1 job
 ```
 scontrol show jobid -dd 'insert jobnumber'
 ```
++ location cleaned reads
+```
+/proj/sllstore2017011/ischnura_analysis/results/decloned_reads
+```
++ location reference genome ischnura elegans
+```
+/proj/sllstore2017011/genome_10k_trimmed.fasta
+```
++ location popmap
+```
+/proj/sllstore2017011/ischnura_analysis/results/denovo/all_popmap
+```
++ example batch script
+```
+#!/bin/bash -l
 
+#SBATCH -A snic2017-7-126
+#SBATCH -p node
+#SBATCH -n 1
+#SBATCH -t 72:00:00
+#SBATCH -J Stacks_pipeline_denovo
+
+module load bioinfo-tools
+module load Stacks
+
+denovo_map.pl -M 2 -n 3 -T 16 -o ./stacks_outputM2n3 --popmap ./all_popmap --samples ../decloned_reads --paired
+### de novo optimisation M and n parameter
+```
 ## Explore raw files
 
 ```
@@ -82,11 +106,16 @@ ${sample} processed; done
 ```
 ## Aligning data against a reference genome
 
++ First we need to index the reference genome
+
+
+
++ Mapping samples
 ```
 #SBATCH -A snic2017-7-126
 #SBATCH -p core
 #SBATCH -n 8
-#SBATCH -t 2-00:00:00
+#SBATCH -t 5:00:00
 #SBATCH -J mapping_of_samples
 
 module load bioinfo-tools
@@ -102,41 +131,40 @@ ischnura_index_10K_trimmed -1 ../results/decloned_reads/${sample}.1.fq.gz -2 ../
 ```
 
 ## Running the pipeline with reference
++ make a population map file
 
+general structure of a popmap file
 
+``` 
+% cat popmap 
+indv_01<tab>fw 
+indv_02     fw 
+indv_03     fw 
+indv_04     oc 
+indv_05     oc 
+indv_06     oc
+```  
 
-## de novo integrate with reference
++ running the pipleline
 
-+ location cleaned reads
-```
-/proj/sllstore2017011/ischnura_analysis/results/decloned_reads
-```
-+ location reference genome ischnura elegans
-```
-/proj/sllstore2017011/genome_10k_trimmed.fasta
-```
-+ location popmap
-```
-/proj/sllstore2017011/ischnura_analysis/results/denovo/all_popmap
-```
-+ example batch script
 ```
 #!/bin/bash -l
 
 #SBATCH -A snic2017-7-126
 #SBATCH -p node
 #SBATCH -n 1
-#SBATCH -t 72:00:00
-#SBATCH -J Stacks_pipeline_denovo
+#SBATCH -t 22:00:00
+#SBATCH -J Stacks_pipeline_hybrid
 
 module load bioinfo-tools
 module load Stacks
 
-denovo_map.pl -M 2 -n 3 -T 16 -o ./stacks_outputM2n3 --popmap ./all_popmap --samples ../decloned_reads --paired
-### de novo optimisation M and n parameter
+ref_map.pl -T 16 --samples ../results/sorted_bam_10K_trimmed/ -o ../results/reference/stacks_output_ref --popmap ../subset/popmap_files/all
 ```
 
-### parameter optimalisation
+## Running the pipeline denovo
+
++ parameter optimalisation
 
 + -r 0.8 =loci found in 80% of the population or, r80 loci
 + popmap for circa 20 samples
@@ -154,14 +182,18 @@ awk '{print $1}' populations.hapstats.tsv | sort | uniq | wc -l
 
 + For M values with highest number of loci, also change n to M-1 and M+1
 
-### de novo analysis
++ running the de novo pipeline
 ```
 denovo_map.pl -M 2 -n 3 -T 16 -o ./stacks_outputM2n3 --popmap ./all_popmap --samples ../decloned_reads --paired
 ```
+
+## De novo first, then integrate with reference
+
 ### mapping
 + Map catalog to reference genome
-+ bwa gives best results
-+ index is latest assembly - having scaffolds more than 50k
+
+bwa gives best results
+
 ```
 #!/bin/bash -l
 
@@ -213,7 +245,7 @@ stacks-integrate-alignments -P ./stacks_outputM2n3 -B ./bwa/catalog.bam -O ./int
 + copy integrate output files into de novo output folder
 + ready for populations
 
-### populations
+## Populations
 + min_samples=0.75    # minimum per-population percentage of samples and
 +	min_maf=0.05     # minimum minor allele frequency
 +	max_obs_het=0.70   # maximum accepted heterozygosity
