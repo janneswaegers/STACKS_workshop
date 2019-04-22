@@ -25,6 +25,13 @@ sbatch script.sh
 scontrol show jobid -dd 'insert jobnumber'
 ```
 
+## Explore raw files
+
+```
+zcat sample.1.fq.gz | head
+zcat sample.2.fq.gz | head
+```
+
 ## Cleaning the data
 + demultiplexing
 
@@ -46,6 +53,14 @@ process_radtags -P -p ../raw/lane_1_b -b ../info/isch_barcodes_lane_1 -o ../resu
 
 + decloning
 
+Decloning can be done like this
+
+```
+clone_filter -1 ../results/clean_reads/${sample}.1.fq.gz -2 ../results/clean_reads/${sample}.2.fq.gz -o ../results/decloned_reads -i gzfastq
+```
+
+or through a loop
+
 ```
 #!/bin/bash -l
 
@@ -61,11 +76,34 @@ module load Stacks
 #First of all, we create a variable for saving the sample identifiers
 samples="sample1 sample2 sample 3"
 
-#Now we iterate over them
 #Then we iterate over samples to retrieve all decloned reads in the respective folder
 echo ${samples} | tr " " "\n" | while read sample; do clone_filter -1 ../results/clean_reads/${sample}.1.fq.gz -2 ../results/clean_reads/${sample}.2.fq.gz -o ../results/decloned_reads -i gzfastq; echo \
 ${sample} processed; done
 ```
+## Aligning data against a reference genome
+
+```
+#SBATCH -A snic2017-7-126
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 2-00:00:00
+#SBATCH -J mapping_of_samples
+
+module load bioinfo-tools
+module load bowtie2
+module load samtools
+
+#First of all, we create a variable for saving the sample identifiers
+samples="sample1 sample2 sample 3"
+
+#Then we map the reads iterating for all this sample files and covert to the bam format
+echo ${samples} | tr " " "\n" | while read sample; do bowtie2 -N 1 --mp 6,2 -I 100 -X 1000 -p 8 -x \
+ischnura_index_10K_trimmed -1 ../results/decloned_reads/${sample}.1.fq.gz -2 ../results/decloned_reads/${sample}.2.fq.gz | samtools view -bS -o ../results/alignment_10K_trimmed/${sample}.bam ; echo ${sample} processed; done
+```
+
+## Running the pipeline with reference
+
+
 
 ## de novo integrate with reference
 
