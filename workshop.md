@@ -4,7 +4,6 @@
 
 
 
-
 ## General uppmax code
 + log in
 ```
