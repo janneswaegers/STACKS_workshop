@@ -106,9 +106,18 @@ ${sample} processed; done
 ## Aligning data against a reference genome
 
 + First we need to index the reference genome
+```
+#SBATCH -A snic2017-7-126
+#SBATCH -p core
+#SBATCH -n 8
+#SBATCH -t 2-00:00:00
+#SBATCH -J indexing_of_reference
 
+module load bioinfo-tools
+module load bowtie2
 
-
+bowtie2-build /proj/snic2017-7-126/private/assembly_50k.fasta ischnura_index
+```
 + Mapping samples
 ```
 #SBATCH -A snic2017-7-126
@@ -132,7 +141,7 @@ ischnura_index_10K_trimmed -1 ../results/decloned_reads/${sample}.1.fq.gz -2 ../
 ## Running the pipeline with reference
 + make a population map file
 
-general structure of a popmap file
+general structure of a popmap file:
 
 ``` 
 % cat popmap 
