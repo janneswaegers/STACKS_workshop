@@ -3,6 +3,7 @@
 
 
 
+
 ## General uppmax code
 + log in
 ```
@@ -31,10 +32,6 @@ interactive -A snic2017-7-126
 + location reference genome ischnura elegans
 ```
 /proj/sllstore2017011/genome_10k_trimmed.fasta
-```
-+ location popmap
-```
-/proj/sllstore2017011/ischnura_analysis/results/denovo/all_popmap
 ```
 + example batch script
 ```
@@ -286,41 +283,14 @@ sed -i '1d' populations.structure
 ```
 + pops from charachter to number
 ```
-sed -i -e 's/hervias/1/g' populations.structure
-sed -i -e 's/lascanas/2/g' populations.structure
-sed -i -e 's/perdiguero/3/g' populations.structure
-sed -i -e 's/triciovillar/4/g' populations.structure
-sed -i -e 's/valbornedo/5/g' populations.structure
-sed -i -e 's/xuno/6/g' populations.structure
-sed -i -e 's/arles/7/g' populations.structure
-sed -i -e 's/arreo/8/g' populations.structure
-sed -i -e 's/belgium/9/g' populations.structure
-sed -i -e 's/laigual/10/g' populations.structure
-sed -i -e 's/liverpool/11/g' populations.structure
-sed -i -e 's/maraixdorx/12/g' populations.structure
-sed -i -e 's/menorca/13/g' populations.structure
-sed -i -e 's/sweden/14/g' populations.structure
-sed -i -e 's/doninos/15/g' populations.structure
-sed -i -e 's/laxe/16/g' populations.structure
-sed -i -e 's/louro/17/g' populations.structure
-sed -i -e 's/algarve/18/g' populations.structure
-sed -i -e 's/algeria/19/g' populations.structure
-sed -i -e 's/cachadas/20/g' populations.structure
-sed -i -e 's/sanmateo/21/g' populations.structure
-sed -i -e 's/genei/22/g' populations.structure
-sed -i -e 's/fountaineae/23/g' populations.structure
-sed -i -e 's/saharensis/24/g' populations.structure
+sed -i -e 's/xuno/1/g' populations.structure
+sed -i -e 's/louro/2/g' populations.structure
+sed -i -e 's/laxe/3/g' populations.structure
+
+```
++ move structure file to local computer
+```
+scp -r janneswa@rackham.uppmax.uu.se:/proj/sllstore2017011/ischnura_analysis/results/workshop_RADseq/reference/structure /Users/janne/Documents/MarieCurie/project_RAD/
 ```
 
-# edit mainparams
-## count markers
-awk -F"\t" '{print NF;exit}' populations.structure
-7498-2=7496
-## count inds
-wc -l populations.structure
-419-1=418
-418/2=209
-
-630
-243
 
