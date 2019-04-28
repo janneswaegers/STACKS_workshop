@@ -1,7 +1,7 @@
 # STACKS WORKSHOP 
 *29th of April 2019, Lund*
 
-![][https://github.com/janneswaegers/STACKS_workshop/blob/master/ischnura.jpg]
+![](https://github.com/janneswaegers/STACKS_workshop/blob/master/ischnura.jpg)
 
 
 ## General uppmax code
