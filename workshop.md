@@ -269,7 +269,12 @@ stacks-integrate-alignments -P ./stacks_outputM2n3 -B ./bwa/catalog.bam -O ./int
 +	--min_maf=0.05     # minimum minor allele frequency
 +	--max_obs_het=0.70   # maximum accepted heterozygosity
 ```
-populations -P ./../stacks_outputM2n3 --popmap ./../all_popmap -O pops.maf05.r75.het70  -r 0.75 --min_maf 0.05  --max_obs_het 0.7 --genepop --plink --structure --vcf
+populations -P ./../stacks_output_ref --popmap ./../all_popmap -O pops.maf05.r75.het70  -r 0.75 --min_maf 0.05  --max_obs_het 0.7 --genepop --plink --structure --vcf
+```
+
++ select one random SNP per RAD tag
+```
+populations -P ./../stacks_output_ref --popmap ./../all_popmap -O pops.maf05.r75.het70  -r 0.75 --min_maf 0.05  --max_obs_het 0.7 --genepop --plink --structure --vcf --write_random_snp
 ```
 
 ## DOWNSTREAM ANALYSIS: STRUCTURE
