@@ -20,6 +20,10 @@ sbatch script.sh
 ```
 scontrol show jobid -dd 'insert jobnumber'
 ```
++ work on interactive node
+```
+interactive -A snic2017-7-126
+```
 + location cleaned reads
 ```
 /proj/sllstore2017011/ischnura_analysis/results/decloned_reads
