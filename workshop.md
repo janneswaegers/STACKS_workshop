@@ -3,6 +3,9 @@
 
 ![](https://github.com/janneswaegers/STACKS_workshop/blob/master/ischnura.jpg)
 
+## STACKS manual
+
+http://catchenlab.life.illinois.edu/stacks/manual/
 
 ## General uppmax code
 + log in
