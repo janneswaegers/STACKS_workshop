@@ -28,14 +28,6 @@ scontrol show jobid -dd 'insert jobnumber'
 ```
 interactive -A snic2017-7-126
 ```
-+ location cleaned reads
-```
-/proj/sllstore2017011/ischnura_analysis/results/decloned_reads
-```
-+ location reference genome ischnura elegans
-```
-/proj/sllstore2017011/genome_10k_trimmed.fasta
-```
 + example batch script
 ```
 #!/bin/bash -l
@@ -54,6 +46,16 @@ denovo_map.pl -M 2 -n 3 -T 16 -o ./stacks_outputM2n3 --popmap ./all_popmap --sam
 ```
 ## Explore raw files
 
++ workshop folder
+```
+cd /proj/snic2019-8-166/RADseq_workshop
+```
+
+```
++ location indexed reference genome ischnura elegans
+```
+/proj/snic2019-8-166/RADseq_workshop/reference_genome_index/
+```
 ```
 zcat sample.1.fq.gz | head
 zcat sample.2.fq.gz | head
@@ -120,7 +122,7 @@ ${sample} processed; done
 module load bioinfo-tools
 module load bowtie2
 
-bowtie2-build /proj/snic2017-7-126/private/assembly_50k.fasta ischnura_index
+bowtie2-build /proj/sllstore2017011/genome_10k_trimmed.fasta ischnura_index_10K_trimmed
 ```
 + Mapping samples
 ```
@@ -137,7 +139,7 @@ module load samtools
 #First of all, we create a variable for saving the sample identifiers
 samples="sample1 sample2 sample 3"
 
-#Then we map the reads iterating for all this sample files and covert to the bam format
+#Then we map the reads iterating for all this sample files
 echo ${samples} | tr " " "\n" | while read sample; do bowtie2 -N 1 --mp 6,2 -I 100 -X 1000 -p 8 -x \
 ischnura_index_10K_trimmed -1 ../results/decloned_reads/${sample}.1.fq.gz -2 ../results/decloned_reads/${sample}.2.fq.gz | samtools view -bS -o ../results/alignment_10K_trimmed/${sample}.bam ; echo ${sample} processed; done
 ```
@@ -165,13 +167,13 @@ indv_06     oc
 #SBATCH -A snic2017-7-126
 #SBATCH -p node
 #SBATCH -n 1
-#SBATCH -t 22:00:00
+#SBATCH -t 1:00:00
 #SBATCH -J Stacks_pipeline_hybrid
 
 module load bioinfo-tools
 module load Stacks
 
-ref_map.pl -T 16 --samples ../results/sorted_bam_10K_trimmed/ -o ../results/reference/stacks_output_ref --popmap ../subset/popmap_files/all
+ref_map.pl -T 16 --samples ../sorted_bam_10K_trimmed/ -o ./stacks_output_ref --popmap ../popmap
 ```
 
 ## Running the pipeline denovo
