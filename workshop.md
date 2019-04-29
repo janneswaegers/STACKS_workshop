@@ -50,12 +50,11 @@ denovo_map.pl -M 2 -n 3 -T 16 -o ./stacks_outputM2n3 --popmap ./all_popmap --sam
 ```
 cd /proj/snic2019-8-166/RADseq_workshop
 ```
-
-```
 + location indexed reference genome ischnura elegans
 ```
 /proj/snic2019-8-166/RADseq_workshop/reference_genome_index/
 ```
++ print head of files
 ```
 zcat sample.1.fq.gz | head
 zcat sample.2.fq.gz | head
